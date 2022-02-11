@@ -6,7 +6,7 @@ cd server
 yarn start
 ```
 
-Then run the development server for next js.
+Then run the development server for next js from the root.
 
 ```bash
 yarn dev
