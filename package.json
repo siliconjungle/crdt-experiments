@@ -1,0 +1,21 @@
+{
+  "name": "crdt-implementation",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./index.js",
+    "start-shelf": "node ./shelf.js",
+    "start-server": "node ./server.js",
+    "start-client": "node ./client.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "events": "^3.3.0",
+    "uuid": "^8.3.2",
+    "ws": "^8.5.0"
+  }
+}
