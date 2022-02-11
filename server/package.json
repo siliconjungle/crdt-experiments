@@ -1,12 +1,9 @@
 {
-  "name": "crdt-implementation",
+  "name": "cabinet-server",
   "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "start-server": "node ./server.mjs"
+    "start": "node ./index.js"
   },
   "dependencies": {
     "events": "^3.3.0",
