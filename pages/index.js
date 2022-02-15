@@ -21,6 +21,7 @@ let connection
 const init = () => {
   // Load the web page first
   connection = new WebSocket('wss://silicon-jungle.herokuapp.com')
+  // connection = new WebSocket('ws://localhost:8080')
   // https://silicon-jungle.herokuapp.com/
   connection.onopen = () => {
     sendMessage(connection, {
@@ -56,6 +57,8 @@ const useShelf = (key, initialValue) => {
   }, [])
 
   const setValue = value => {
+    console.log('_KEY_', key)
+    console.log('_VALUE_', value)
     setShelfState(key, value)
     const shelf = getShelf(key)
     sendMessage(connection, {
@@ -85,27 +88,29 @@ const useShelf = (key, initialValue) => {
 }
 
 const Home = () => {
-  const [pos, setPos] = useShelf('/', 0)
+  const [data, setData] = useShelf('/', { playerKeys: {} })
+  const [publicKey, setPublicKey] = useState(randomRange(0, 999999999))
 
-  const generateRandomValue = useCallback(() => {
-    setPos(randomRange(0, 100))
-  }, [])
+  const setToKey = useCallback((event) => {
+    const playerKeys = { ...data.playerKeys, [publicKey]: event.which }
+    setData({ playerKeys })
+  }, [publicKey])
 
   useEffect(() => {
     init()
 
-    document.addEventListener('keyup', generateRandomValue, false)
+    document.addEventListener('keyup', setToKey, false)
 
     return () => {
-      document.removeEventListener('keyup', generateRandomValue, false)
+      document.removeEventListener('keyup', setToKey, false)
     }
-  }, [generateRandomValue])
+  }, [setToKey, publicKey])
 
-  console.log('_POS_', pos)
+  console.log('_DATA_', data)
 
   return (
     <div>
-      Pos: {pos}
+      Data: {JSON.stringify(data, null, 2)}
     </div>
   )
 }
