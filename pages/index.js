@@ -54,7 +54,7 @@ const useShelf = (key, initialValue) => {
   const callback = useCallback((key, value) => {
     console.log('_CALLBACK_', key, value)
     setInnerValue(value)
-  }, [])
+  }, [key])
 
   const setValue = value => {
     console.log('_KEY_', key)
@@ -91,25 +91,20 @@ const Home = () => {
   const [data, setData] = useShelf('/', { playerKeys: {} })
   const [publicKey, setPublicKey] = useState(randomRange(0, 999999999))
 
-  const setToKey = useCallback((event) => {
-    const playerKeys = { ...data.playerKeys, [publicKey]: event.which }
+  const setToKey = (event) => {
+    console.log('_SET_TO_KEY_', event.which)
+    const playerKeys = { ...data?.playerKeys, [publicKey]: event.which }
     setData({ playerKeys })
-  }, [data, publicKey])
+  }
 
   useEffect(() => {
     init()
-
-    document.addEventListener('keyup', setToKey, false)
-
-    return () => {
-      document.removeEventListener('keyup', setToKey, false)
-    }
-  }, [setToKey, publicKey])
+  }, [])
 
   console.log('_DATA_', data)
 
   return (
-    <div>
+    <div style={{ backgroundColor: 'rgb(66, 135, 245)', minHeight: '500px' }} onKeyPress={setToKey} tabIndex={0}>
       Data: {JSON.stringify(data, null, 2)}
     </div>
   )
