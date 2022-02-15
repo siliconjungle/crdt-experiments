@@ -6,7 +6,6 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "start-server": "node ./server.mjs"
   },
   "dependencies": {
     "@silicon-jungle/cabinet": "^1.0.3",
