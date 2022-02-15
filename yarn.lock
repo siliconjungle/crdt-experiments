@@ -139,6 +139,13 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.0.tgz#7f698254aadf921e48dda8c0a6b304026b8a9323"
   integrity sha512-JLo+Y592QzIE+q7Dl2pMUtt4q8SKYI5jDrZxrozEQxnGVOyYE+GWK9eLkwTaeN9DDctlaRAQ3TBmzZ1qdLE30A==
 
+"@silicon-jungle/cabinet@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@silicon-jungle/cabinet/-/cabinet-1.0.3.tgz#b62db8230be52ba3d71d6b0ac9d47462fa54bbac"
+  integrity sha512-gKqzPE034tMa05MQ9Wcb1NlEPprIBhrPwzxHPYb16PEN4ExPGSaDztE/WByeHTe55/VeiIkvfFricToLmVEQ2g==
+  dependencies:
+    events "^3.3.0"
+
 "@types/json5@^0.0.29":
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"

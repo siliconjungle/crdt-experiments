@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import {
-  getState as getShelfState,
   setState as setShelfState,
   setShelf,
   getShelf,
   addSubscription,
   removeSubscription,
-} from '../cabinet'
+} from '@silicon-jungle/cabinet'
 
 const sendMessage = (connection, message) => {
   if (connection?.readyState === WebSocket.OPEN) {
@@ -21,8 +20,8 @@ let connection
 // What do I do in the situation where new data has come through but I have made changes? Do I merge the two together?
 const init = () => {
   // Load the web page first
-  connection = new WebSocket('ws://localhost:8080')
-
+  connection = new WebSocket('ws://silicon-jungle.herokuapp.com:8080')
+  // https://silicon-jungle.herokuapp.com/
   connection.onopen = () => {
     sendMessage(connection, {
       type: 'subscribe',
@@ -36,8 +35,10 @@ const init = () => {
     const message = JSON.parse(event.data)
     const { type, data } = message
     if (type === 'get') {
+      console.log('_DATA_', data)
       const { key, value } = data
       setShelf(key, value)
+      console.log(getShelf(key))
     }
   }
 }
@@ -49,9 +50,10 @@ const randomRange = (min, max) => {
 const useShelf = (key, initialValue) => {
   const [value, setInnerValue] = useState(initialValue)
 
-  const callback = (key, value) => {
+  const callback = useCallback((key, value) => {
+    console.log('_CALLBACK_', key, value)
     setInnerValue(value)
-  }
+  }, [])
 
   const setValue = value => {
     setShelfState(key, value)
@@ -66,10 +68,12 @@ const useShelf = (key, initialValue) => {
   }
 
   useEffect(() => {
+    console.log('_SUB_', key, callback)
     addSubscription(key, callback)
     // Changing the key should remove the subscription too
     // For now just dont' do it.
     return () => {
+      console.log('_REMOVE_SUB_')
       removeSubscription(key, callback)
     }
   }, [key])
@@ -96,6 +100,8 @@ const Home = () => {
       document.removeEventListener('keyup', generateRandomValue, false)
     }
   }, [])
+
+  console.log('_POS_', pos)
 
   return (
     <div>
