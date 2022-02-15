@@ -94,7 +94,7 @@ const Home = () => {
   const setToKey = useCallback((event) => {
     const playerKeys = { ...data.playerKeys, [publicKey]: event.which }
     setData({ playerKeys })
-  }, [publicKey])
+  }, [data, publicKey])
 
   useEffect(() => {
     init()
