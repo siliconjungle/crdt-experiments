@@ -20,7 +20,7 @@ let connection
 // What do I do in the situation where new data has come through but I have made changes? Do I merge the two together?
 const init = () => {
   // Load the web page first
-  connection = new WebSocket('ws://silicon-jungle.herokuapp.com:8080')
+  connection = new WebSocket('wss://silicon-jungle.herokuapp.com:8080')
   // https://silicon-jungle.herokuapp.com/
   connection.onopen = () => {
     sendMessage(connection, {
