@@ -104,9 +104,9 @@ const Home = () => {
   console.log('_DATA_', data)
 
   return (
-    <div style={{ backgroundColor: 'rgb(66, 135, 245)', minHeight: '500px' }} onKeyPress={setToKey} tabIndex={0}>
+    <pre style={{ backgroundColor: 'rgb(66, 135, 245)', minHeight: '500px' }} onKeyPress={setToKey} tabIndex={0}>
       Data: {JSON.stringify(data, null, 2)}
-    </div>
+    </pre>
   )
 }
 
