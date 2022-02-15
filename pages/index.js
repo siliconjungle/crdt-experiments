@@ -76,7 +76,7 @@ const useShelf = (key, initialValue) => {
       console.log('_REMOVE_SUB_')
       removeSubscription(key, callback)
     }
-  }, [key])
+  }, [key, callback])
 
   return [
     value,
@@ -87,9 +87,9 @@ const useShelf = (key, initialValue) => {
 const Home = () => {
   const [pos, setPos] = useShelf('/', 0)
 
-  const generateRandomValue = () => {
+  const generateRandomValue = useCallback(() => {
     setPos(randomRange(0, 100))
-  }
+  }, [])
 
   useEffect(() => {
     init()
@@ -99,7 +99,7 @@ const Home = () => {
     return () => {
       document.removeEventListener('keyup', generateRandomValue, false)
     }
-  }, [])
+  }, [generateRandomValue])
 
   console.log('_POS_', pos)
 
