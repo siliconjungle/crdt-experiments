@@ -1,18 +1,12 @@
-// This is what the frontend API should look like?
-/*
-const client = new ShelfClient({
-  uri: '',
-  cache: new InMemoryCache(),
-})
+import { CabinetProvider, CabinetClient } from '../cabinet-client'
 
-<ShelfProvider client={client}>
+const client = new CabinetClient({ uri: 'wss://silicon-jungle.herokuapp.com' })
+// const client = new CabinetClient({ uri: 'ws://localhost:8080' })
 
-</ShelfProvider>
-
-const { loading, error, data } = useShelf(key)
- */
-const MyApp = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />
-}
+const MyApp = ({ Component, pageProps }) => (
+  <CabinetProvider client={client}>
+    <Component {...pageProps} />
+  </CabinetProvider>
+)
 
 export default MyApp
