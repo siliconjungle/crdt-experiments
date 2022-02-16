@@ -13,7 +13,6 @@ function CabinetClient (options) {
       if (type === 'get') {
         const { key, value } = data
         setShelf(key, value)
-        console.log(getShelf(key))
       }
     }
 

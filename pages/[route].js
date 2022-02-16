@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { VStack, Heading } from '@chakra-ui/react'
@@ -131,10 +132,11 @@ const convertMapToData = map => {
 }
 
 const LevelEditor = () => {
+  const router = useRouter()
+  const { route } = router.query
   const [loading, setLoading] = useState(true)
   const [floors, setFloors] = useState([])
-
-  const [data, setData] = useShelf('/', convertMapToData(WORLD_MAP))
+  const [data, setData] = useShelf(`/${route}`, convertMapToData(WORLD_MAP))
   const [map, setMap] = useState(WORLD_MAP)
 
   const handleTileChange = elements => {
