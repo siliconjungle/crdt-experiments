@@ -2,33 +2,6 @@ import React, { useRef, useEffect, useState } from 'react'
 import { IconButton, HStack, VStack } from '@chakra-ui/react'
 import { GiPaintBucket, GiPencil } from 'react-icons/gi'
 
-const WORLD_MAP = [
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-]
-
 const MAP_WIDTH = 24
 const MAP_HEIGHT = 24
 const TILE_WIDTH = 32
@@ -38,10 +11,9 @@ const TOOLS = {
   PENCIL: 'pencil',
   BUCKET: 'bucket',
 }
-
 const getMousePosition = (e, offsetX, offsetY) => {
-  const mouseX = e.pageX - offsetX
-  const mouseY = e.pageY - offsetY
+  const mouseX = e.clientX - offsetX
+  const mouseY = e.clientY - offsetY
   return {
     x: Math.floor(mouseX / TILE_WIDTH),
     y: Math.floor(mouseY / TILE_HEIGHT),
@@ -114,15 +86,13 @@ const Canvas = ({ worldMap, onTileChange, floors }) => {
   const [tool, setTool] = useState(TOOLS.PENCIL)
   const [brushTile, setBrushTile] = useState(0)
   const [ctx, setCtx] = useState(null)
-  const [offsetX, setOffsetX] = useState(null)
-  const [offsetY, setOffsetY] = useState(null)
   const [mouseDown, setMouseDown] = useState(false)
 
-  const draw = (map) => {
+  const draw = () => {
     ctx.clearRect(0, 0, ref.current.width, ref.current.height)
     for (let y = 0; y < MAP_HEIGHT; y++) {
       for (let x = 0; x < MAP_WIDTH; x++) {
-        ctx.drawImage(floors[map[x][y]], x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT)
+        ctx.drawImage(floors[worldMap[x][y]], x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT)
       }
     }
   }
@@ -141,10 +111,16 @@ const Canvas = ({ worldMap, onTileChange, floors }) => {
     draw(cloneMap)
   }
 
+  const getOffsetPosition = () => {
+    const boundingClientRect = ref.current.getBoundingClientRect()
+    return { offsetX: boundingClientRect.left, offsetY: boundingClientRect.top }
+  }
+
   const handleMousedown = (e) => {
     setMouseDown(true)
     e.preventDefault()
     e.stopPropagation()
+    const { offsetX, offsetY } = getOffsetPosition()
     const { x, y } = getMousePosition(e, offsetX, offsetY)
 
     if (tool === TOOLS.PENCIL) {
@@ -156,6 +132,7 @@ const Canvas = ({ worldMap, onTileChange, floors }) => {
 
   const handleMouseMove = (e) => {
     if (mouseDown) {
+      const { offsetX, offsetY } = getOffsetPosition()
       const { x, y } = getMousePosition(e, offsetX, offsetY)
 
       if (tool === TOOLS.PENCIL) {
@@ -178,9 +155,6 @@ const Canvas = ({ worldMap, onTileChange, floors }) => {
 
   useEffect(() => {
     if (ref?.current && !ctx) {
-      const boundingClientRect = ref.current.getBoundingClientRect()
-      setOffsetX(boundingClientRect.left)
-      setOffsetY(boundingClientRect.top)
       setCtx(ref.current.getContext('2d'))
     }
   }, [ref, ctx])
@@ -190,6 +164,16 @@ const Canvas = ({ worldMap, onTileChange, floors }) => {
       draw(worldMap)
     }
   }, [worldMap, ref, ctx])
+
+  useEffect(() => {
+    if (ctx) {
+      window.addEventListener('visibilitychange', (e) => {
+        if (document.visibilityState === 'visible') {
+          draw()
+        }
+      })
+    }
+  }, [ctx])
 
   return (
     <VStack>

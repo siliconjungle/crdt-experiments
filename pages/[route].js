@@ -136,6 +136,7 @@ const LevelEditor = () => {
   const { route } = router.query
   const [loading, setLoading] = useState(true)
   const [floors, setFloors] = useState([])
+  // Route starts as undefined, would be better to hand the route in from a server side rendered page.
   const [data, setData] = useShelf(`/${route}`, convertMapToData(WORLD_MAP))
   const [map, setMap] = useState(WORLD_MAP)
 
@@ -155,7 +156,6 @@ const LevelEditor = () => {
   }, [])
 
   useEffect(() => {
-    // const map = convertDataToMap(data)
     setMap(convertDataToMap(data))
   }, [data])
 
