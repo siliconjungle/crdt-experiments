@@ -1,6 +1,6 @@
-import CabinetClient from './cabinet-client.js'
-import CabinetProvider from './cabinet-provider.js'
-import useShelf from './use-shelf.js'
+import CabinetClient from './cabinet-client'
+import CabinetProvider from './cabinet-provider'
+import useShelf from './use-shelf'
 
 export {
   CabinetClient,

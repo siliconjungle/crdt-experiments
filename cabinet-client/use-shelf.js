@@ -1,8 +1,10 @@
 import { useContext, useState, useCallback, useEffect } from 'react'
+import { accessToken } from 'config/server'
 import CabinetContext from './cabinet-context.js'
 
-const useShelf = (key, initialValue) => {
-  const [value, setInnerValue] = useState(initialValue)
+const useShelf = (key) => {
+  const [value, setInnerValue] = useState(null)
+
   const {
     client,
     cabinet,
@@ -10,28 +12,29 @@ const useShelf = (key, initialValue) => {
     removeSubscription,
   } = useContext(CabinetContext)
 
-  const callback = useCallback((key, value) => {
-    setInnerValue(value)
+  const callback = useCallback((cabinet, key, shelf) => {
+    if (JSON.stringify(shelf.value) !== JSON.stringify(value)) {
+      setInnerValue(shelf.value)
+    }
   }, [key])
 
-  const setValue = value => {
-    cabinet.setState(key, value)
-    const shelf = cabinet.getShelf(key)
-    if (client) {
+  const setValue = useCallback(value => {
+    cabinet.setState(key, value).then((patches) => {
       client.sendMessage({
+        accessToken,
         type: 'set',
         data: {
+          cabinet: cabinet.name,
           key,
-          value: shelf,
+          patches,
         },
       })
-    }
-  }
+    })
+  }, [key, cabinet, client])
 
   useEffect(() => {
     addSubscription(key, callback)
-    // Changing the key should remove the subscription too
-    // For now just dont' do it.
+
     return () => {
       removeSubscription(key, callback)
     }

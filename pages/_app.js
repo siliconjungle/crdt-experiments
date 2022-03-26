@@ -1,5 +1,7 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
+import Space from '../cabinet-client/space-singleton'
 import { CabinetProvider, CabinetClient } from '../cabinet-client'
+import { socketUrl, serverCabinet } from 'config/server'
 
 const config = {
   initialColorMode: 'dark',
@@ -8,8 +10,10 @@ const config = {
 
 const theme = extendTheme({ config })
 
-const client = new CabinetClient({ uri: 'wss://silicon-jungle.herokuapp.com' })
-// const client = new CabinetClient({ uri: 'ws://localhost:8080' })
+const client = new CabinetClient({
+  uri: socketUrl,
+  cabinet: Space.getCabinet(serverCabinet),
+})
 
 const MyApp = ({ Component, pageProps }) => (
   <ChakraProvider theme={theme}>

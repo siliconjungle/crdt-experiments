@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from 'react'
+import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { IconButton, HStack, VStack } from '@chakra-ui/react'
 import { GiPaintBucket, GiPencil } from 'react-icons/gi'
 
@@ -87,17 +87,21 @@ const Canvas = ({ worldMap, onTileChange, floors }) => {
   const [brushTile, setBrushTile] = useState(0)
   const [ctx, setCtx] = useState(null)
   const [mouseDown, setMouseDown] = useState(false)
+  const [init, setInit] = useState(false)
 
-  const draw = () => {
+  const draw = useCallback(() => {
     ctx.clearRect(0, 0, ref.current.width, ref.current.height)
     for (let y = 0; y < MAP_HEIGHT; y++) {
       for (let x = 0; x < MAP_WIDTH; x++) {
         ctx.drawImage(floors[worldMap[x][y]], x * TILE_WIDTH, y * TILE_HEIGHT, TILE_WIDTH, TILE_HEIGHT)
       }
     }
-  }
+  }, [ctx, ref, floors, worldMap])
 
   const handlePencil = (x, y, brush) => {
+    if (worldMap[x][y] === brush) {
+      return
+    }
     const cloneMap = JSON.parse(JSON.stringify(worldMap))
     cloneMap[x][y] = brush
     onTileChange(cloneMap)
@@ -105,6 +109,9 @@ const Canvas = ({ worldMap, onTileChange, floors }) => {
   }
 
   const handleBucket = (x, y, brush) => {
+    if (worldMap[x][y] === brush) {
+      return
+    }
     let cloneMap = JSON.parse(JSON.stringify(worldMap))
     cloneMap = floodFill(cloneMap, x, y, brush)
     onTileChange(cloneMap)
@@ -160,20 +167,22 @@ const Canvas = ({ worldMap, onTileChange, floors }) => {
   }, [ref, ctx])
 
   useEffect(() => {
-    if (ctx) {
-      draw(worldMap)
-    }
-  }, [worldMap, ref, ctx])
-
-  useEffect(() => {
-    if (ctx) {
+    if (ctx && !init) {
+      draw()
       window.addEventListener('visibilitychange', (e) => {
         if (document.visibilityState === 'visible') {
           draw()
         }
       })
+      setInit(true)
     }
-  }, [ctx])
+  }, [ctx, draw, init])
+
+  useEffect(() => {
+    if (ctx) {
+      draw()
+    }
+  }, worldMap)
 
   return (
     <VStack>

@@ -7,6 +7,7 @@ import {
   Link as ChakraLink,
   Text,
 } from '@chakra-ui/react'
+import { serverUrl, serverCabinet } from 'config/server'
 
 const Link = ({ href, children }) => {
   return (
@@ -43,8 +44,7 @@ const Home = ({ worlds }) => {
 }
 
 export const getServerSideProps = async () => {
-  // const res = await fetch('http://localhost:8080')
-  const res = await fetch('https://silicon-jungle.herokuapp.com')
+  const res = await fetch(`${serverUrl}${serverCabinet}`)
   const worlds = await res.json()
 
   return { props: { worlds } }

@@ -894,12 +894,13 @@
   resolved "https://registry.yarnpkg.com/@rushstack/eslint-patch/-/eslint-patch-1.1.0.tgz#7f698254aadf921e48dda8c0a6b304026b8a9323"
   integrity sha512-JLo+Y592QzIE+q7Dl2pMUtt4q8SKYI5jDrZxrozEQxnGVOyYE+GWK9eLkwTaeN9DDctlaRAQ3TBmzZ1qdLE30A==
 
-"@silicon-jungle/cabinet@latest":
-  version "1.0.5"
-  resolved "https://registry.yarnpkg.com/@silicon-jungle/cabinet/-/cabinet-1.0.5.tgz#daf9092d2221770de7e10058f949e75c4480bbd9"
-  integrity sha512-Y7ma2pUUTHNeCnEs4X5ODY8OkaUqdrSomKaGRs0cWeMEqCNUjoWJF3SreTaSGj5qStOUMdrLPATIjuyMKuImrA==
+"@silicon-jungle/cabinet@^2.4.6":
+  version "2.4.6"
+  resolved "https://registry.yarnpkg.com/@silicon-jungle/cabinet/-/cabinet-2.4.6.tgz#d9fc1c5fd17c4da03a9be953f2dc97244d6d2ab2"
+  integrity sha512-Y30pxM7QGqZSfOXfuhDJiUwbckpSfK4daIg2bhkSxc3bNDgVa4gi/4SEUmQaS1JEHZvIFtOinkdo1EssnWK/1w==
   dependencies:
     events "^3.3.0"
+    uuid "^8.3.2"
 
 "@types/json5@^0.0.29":
   version "0.0.29"
@@ -2732,6 +2733,11 @@ use-subscription@1.5.1:
   integrity sha512-Xv2a1P/yReAjAbhylMfFplFKj9GssgTwN7RlcTxBujFQcloStWNDQdc4g4NRWH9xS4i/FDk04vQBptAXoF3VcA==
   dependencies:
     object-assign "^4.1.1"
+
+uuid@^8.3.2:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@^2.0.3:
   version "2.3.0"

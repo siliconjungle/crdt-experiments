@@ -1,0 +1,6 @@
+export const serverUrl = 'https://silicon-jungle.herokuapp.com'
+export const socketUrl = 'wss://silicon-jungle.herokuapp.com'
+// export const serverUrl = 'http://localhost:3000'
+// export const socketUrl = 'ws://localhost:3000'
+export const serverCabinet = '/levels'
+export const accessToken = 'e3524a26-d03c-4b5f-b856-604263fdfc9d'

@@ -12,7 +12,7 @@
     "@chakra-ui/react": "^1.8.3",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
-    "@silicon-jungle/cabinet": "latest",
+    "@silicon-jungle/cabinet": "^2.4.6",
     "events": "^3.3.0",
     "framer-motion": "^6.2.6",
     "next": "12.0.10",
