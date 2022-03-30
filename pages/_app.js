@@ -1,7 +1,6 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react'
-import Space from '../cabinet-client/space-singleton'
-import { CabinetProvider, CabinetClient } from '../cabinet-client'
-import { socketUrl, serverCabinet } from 'config/server'
+import { CabinetProvider, CabinetClient, space } from '@silicon-jungle/cabinets-client'
+import { socketUrl, serverCabinet, accessToken } from 'config/server'
 
 const config = {
   initialColorMode: 'dark',
@@ -12,7 +11,8 @@ const theme = extendTheme({ config })
 
 const client = new CabinetClient({
   uri: socketUrl,
-  cabinet: Space.getCabinet(serverCabinet),
+  cabinet: space.getCabinet(serverCabinet),
+  accessToken,
 })
 
 const MyApp = ({ Component, pageProps }) => (

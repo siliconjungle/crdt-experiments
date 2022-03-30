@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 import Head from 'next/head'
 import { VStack, Heading } from '@chakra-ui/react'
-import { useShelf } from 'cabinet-client'
+import { useShelf } from '@silicon-jungle/cabinets-client'
 import { getTextureImagesByKeys, loadTextures } from 'lib/textures'
 
 const CanvasEditor = dynamic(
